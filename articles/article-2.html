@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>روش المان طیفی مانتز برای حل عددی معادله موج بلند منظم - مقاله‌های ریاضی</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/article.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <span class="logo">📐</span>
+                <div>
+                    <h1><a href="../index.html">مقاله‌های ریاضی</a></h1>
+                </div>
+            </div>
+            <nav>
+                <a href="../index.html">🏠 خانه</a>
+                <a href="../about.html">درباره</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="article-main">
+        <article class="article-content">
+
+            <h1 class="article-title">
+                روش المان طیفی مانتز برای حل عددی معادله موج بلند منظم
+            </h1>
+
+            <div class="article-info">
+                <span>✍️ نویسندگان: محمود لطفی، امجد علی‌پناه</span>
+                <span>📅 تاریخ: ۱۴۰۴</span>
+                <span>📚 نوع: مقاله پژوهشی</span>
+                <span>🌍 زبان اصلی: انگلیسی</span>
+            </div>
+
+            <div class="article-summary">
+                <h3>📌 چکیده</h3>
+                <p>
+                    این مقاله پایه‌های جدیدی را که از چندجمله‌ای‌های مانتز مشتق شده‌اند، برای کاربرد در روش المان طیفی معرفی می‌کند. 
+                    در این چارچوب، نشان می‌دهیم که ماتریس‌های جرم و سختی به‌ترتیب دارای ساختار سه‌قطری و قطری هستند. 
+                    روش المان طیفی مانتز برای حل عددی معادلات موج بلند منظم به کار گرفته می‌شود. 
+                    ابتدا مشتق زمانی با استفاده از عملگر تفاضل پیشرو گسسته‌سازی می‌شود که منجر به توسعه یک طرح نیمه‌گسسته در حوزه زمان می‌گردد. 
+                    سپس با گسسته‌سازی متغیر مکانی با استفاده از روش المان طیفی مانتز، فرمول‌بندی کاملاً گسسته به دست می‌آید. 
+                    پایداری طرح نیمه‌گسسته زمانی از طریق تحلیل فوریه بررسی و تأیید می‌شود. 
+                    علاوه بر این، همگرایی طرح کاملاً گسسته به‌طور دقیق اثبات می‌شود. 
+                    در نهایت با حل چندین مثال عددی و مقایسه نتایج با روش‌های موجود، دقت و کارایی روش المان طیفی مانتز به‌طور مؤثر نشان داده می‌شود.
+                </p>
+            </div>
+
+            <div class="keywords">
+                <strong>🔑 واژه‌های کلیدی:</strong>
+                چندجمله‌ای‌های مانتز، روش المان طیفی، معادله موج بلند منظم، تحلیل پایداری و همگرایی
+            </div>
+
+            <div class="article-body">
+
+                <h2>۱. مقدمه</h2>
+                <p>
+                    مدل‌سازی بسیاری از مسائل در رشته‌های مختلف علوم و مهندسی منجر به معادلات دیفرانسیل جزئی (PDEs) می‌شود. 
+                    در بیشتر موارد، این مسائل جواب دقیق ندارند یا جواب‌های دقیق پیچیده هستند. 
+                    توسعه روش‌های عددی برای تقریب جواب این مسائل بسیار مهم بوده و همواره مورد توجه ریاضیدانان و مهندسان قرار گرفته است. 
+                    در ادامه، برخی روش‌های عددی برای حل PDEs را به‌طور مختصر معرفی می‌کنیم.
+                </p>
+                <p>
+                    تقریب‌های تفاضل متناهی برای مشتقات، از ساده‌ترین و قدیمی‌ترین روش‌ها برای حل معادلات دیفرانسیل هستند. 
+                    این روش قبلاً توسط اویلر در سال ۱۷۶۸ برای مسائل یک‌بعدی شناخته شده بود و احتمالاً توسط رانگه در سال ۱۹۰۸ به دو بعد گسترش یافت. 
+                    دقت روش تفاضل متناهی (FDM) را می‌توان با مقایسه اندازه خطاهای برشی آن ارزیابی کرد.
+                </p>
+                <p>
+                    روش حجم متناهی (FVM) روشی برای نمایش و ارزیابی معادلات دیفرانسیل جزئی به شکل معادلات جبری است. 
+                    در روش حجم متناهی، انتگرال‌های حجمی در یک PDE که شامل جمله‌های واگرایی هستند، با استفاده از قضیه واگرایی به انتگرال‌های سطحی تبدیل می‌شوند.
+                </p>
+                <p>
+                    روش طیفی یک تکنیک متعارف برای حل PDEs است که اولین بار توسط ناویر برای مسائل ورق الاستیک در سال ۱۸۲۵ معرفی شد. 
+                    ویژگی اصلی روش‌های طیفی، دقت بالا و نرخ همگرایی سریع مجانبی است که به همگرایی نمایی معروف است.
+                </p>
+                <p>
+                    روش المان طیفی (SEM) در سال ۱۹۸۴ توسط پاترا با ترکیب انعطاف‌پذیری FEM‌های مرتبه پایین بر روی دامنه‌های نامنظم با دقت بالا و همگرایی نمایی روش‌های طیفی معرفی شد. 
+                    پاترا از چندجمله‌ای‌های لاگرانژ بر اساس نقاط گاوس-لوباتو-لژاندر استفاده کرد.
+                </p>
+                <p>
+                    در این مقاله، معادله موج بلند منظم (RLWE) را که توسط بنجامین و همکاران پیشنهاد شده است، در نظر می‌گیریم. 
+                    این معادله یکی از انواع شناخته‌شده معادلات تحولی غیرخطی است که نقش اساسی در فیزیک ریاضی و مهندسی دارد.
+                </p>
+
+                <h2>۲. چندجمله‌ای‌های مانتز</h2>
+                <p>
+                    در سال ۱۸۸۵، وایرشتراس یکی از اساسی‌ترین قضایای نظریه تقریب را معرفی کرد:
+                </p>
+                <div class="theorem">
+                    <strong>قضیه ۲.۱ (تقریب وایرشتراس):</strong> 
+                    فرض کنید $f$ یک تابع پیوسته با مقادیر حقیقی تعریف‌شده روی بازه $[0,1]$ باشد و $\epsilon > 0$. 
+                    آنگاه یک چندجمله‌ای $p$ روی $[0,1]$ وجود دارد به‌طوری که $\|f - p\| < \epsilon$.
+                </div>
+                <p>
+                    به عبارت دیگر، مجموعه $\operatorname{span}\{x^n : n \in \mathbb{Z}^+ \cup \{0\}\}$ در $C([0,1])$ نسبت به نرم سوپرمم dense است.
+                </p>
+                <p>
+                    در سال ۱۹۱۲، برنشتاین حدس زیر را مطرح کرد: با داشتن دنباله‌ای از اعداد حقیقی متمایز $\{0 = \lambda_0 < \lambda_1 < \lambda_2 < \dots\}$، 
+                    مجموعه $\operatorname{span}\{x^{\lambda_j} : j \in \mathbb{Z}^+ \cup \{0\}\}$ در $C([0,1])$ dense است اگر و تنها اگر 
+                    $\sum_{j=1}^{\infty} \frac{1}{\lambda_j} = \infty$.
+                </p>
+                <p>
+                    حدس برنشتاین به‌طور مستقل توسط هرمان مانتز در سال ۱۹۱۴ و اتو ساس در سال ۱۹۱۶ اثبات شد.
+                </p>
+                <div class="theorem">
+                    <strong>قضیه ۲.۲ (مانتز-ساس):</strong> 
+                    فرض کنید $\{\lambda_j\}_{j=0}^{\infty}$ دنباله‌ای از اعداد حقیقی با $0 = \lambda_0 < \lambda_1 < \lambda_2 < \dots$ و $\lim_{j \to \infty} \lambda_j = \infty$ باشد. 
+                    آنگاه مجموعه $\operatorname{span}\{x^{\lambda_j} : j \in \mathbb{Z}^+ \cup \{0\}\}$ در $C([0,1])$ dense است اگر و تنها اگر 
+                    $\sum_{j=1}^{\infty} \frac{1}{\lambda_j} = \infty$.
+                </div>
+
+                <h3>۲.۱. چندجمله‌ای‌های مانتز-لژاندر متعامد</h3>
+                <p>
+                    فرض کنید در دنباله‌ای $\{\lambda_0, \lambda_1, \lambda_2, \dots\}$ داشته باشیم $\lambda_k > 0$ برای $k = 0, 1, 2, \dots$ و تعریف کنیم $\Lambda_n = \{\lambda_0, \lambda_1, \dots, \lambda_n\}$.
+                </p>
+                <p>
+                    اگر یک کانتور ساده $\Gamma$ تمام صفرهای مخرج تابع زیر را در بر بگیرد:
+                </p>
+                <p>$$W_n(s) = \prod_{k=0}^{n-1} \frac{s + \overline{\lambda_k} + 1}{s - \lambda_k}, \quad n \in \mathbb{N} \cup \{0\},$$</p>
+                <p>
+                    آنگاه n-امین چندجمله‌ای مانتز-لژاندر به‌صورت زیر تعریف می‌شود:
+                </p>
+                <p>$$P_n(x) = P_n(x; \Lambda_n) = \frac{1}{2\pi i} \oint_{\Gamma} W_n(s) x^s ds.$$</p>
+                <p>
+                    در حالت $n = 0$ در نظر می‌گیریم $P_0(x) = 1$. اگر $\lambda_k \neq \lambda_l$ برای $k \neq l$، این چندجمله‌ای‌ها را می‌توان به‌صورت زیر بیان کرد:
+                </p>
+                <p>$$P_n(x) = \sum_{k=0}^{n} C_{n,k} x^{\lambda_k}, \quad C_{n,k} = \begin{cases} 1 & \text{if } n = 0 \\ \frac{\prod_{l=0}^{n-1} (\lambda_k + \lambda_l + 1)}{\prod_{l=0}^{n-1} (\lambda_k - \lambda_l)} & \text{if } n \geq 1 \end{cases}$$</p>
+                <p>
+                    چندجمله‌ای‌های مانتز-لژاندر رابطه زیر را برآورده می‌کنند:
+                </p>
+                <p>$$xP_n'(x) - xP_{n-1}'(x) = \lambda_n P_n(x) + (1 + \lambda_{n-1}) P_{n-1}(x).$$</p>
+                <p>
+                    آن‌ها همچنین شرط تعامد زیر را برآورده می‌کنند:
+                </p>
+                <p>$$(P_n, P_m) = \int_0^1 P_n(x) \overline{P_m(x)} dx = \frac{\delta_{n,m}}{2\lambda_n + 1}.$$</p>
+                <p>
+                    چهار چندجمله‌ای اول مانتز-لژاندر برای $\lambda_k = \frac{k}{3}$ عبارتند از:
+                </p>
+                <p>$$\begin{cases} P_0(x) = 1, \\ P_1(x) = 6x^{1/3} - 5, \\ P_2(x) = 28x^{2/3} - 42x^{1/3} + 15, \\ P_3(x) = 168x - 252x^{2/3} + 120x^{1/3} - 35. \end{cases}$$</p>
+
+                <h2>۳. روش المان طیفی مانتز (MSEM)</h2>
+                <p>
+                    برای حل مسائل با استفاده از روش المان طیفی (SEM)، ابتدا دامنه را به $N_e$ زیردامنه (المان) غیرهمپوشان $\Omega_e$ تقسیم می‌کنیم که شرایط زیر را برآورده می‌کنند:
+                </p>
+                <p>$$\overline{\Omega} = \bigcup_{e=1}^{N_e} \overline{\Omega}_e, \quad \Omega_e \cap \Omega_{e'} = \emptyset, \quad e \neq e'.$$</p>
+                <p>
+                    فضای تقریب $U^h$ را به‌صورت زیر تعریف می‌کنیم:
+                </p>
+                <p>$$U^h = \{u \in U : u|_{\Omega_e} \in \mathbb{P}_N(\Omega_e)\},$$</p>
+                <p>
+                    که $\mathbb{P}_N$ فضای چندجمله‌ای‌های درجه کمتر یا مساوی $N$ است.
+                </p>
+
+                <h3>۳.۱. ماتریس جرم</h3>
+                <p>
+                    اگر $h_e = t_e - t_{e-1}$، آنگاه ماتریس جرم عنصری $M_{ij}^e$ روی $\Omega_e$ به‌صورت زیر ساخته می‌شود:
+                </p>
+                <p>$$M_{ij}^e = \int_{t_{e-1}}^{t_e} \phi_i(t) \phi_j(t) dt = \frac{h_e}{2} \int_{-1}^{1} \phi_i(x) \phi_j(x) dx.$$</p>
+                <p>
+                    ماتریس جرم متقارن و سه‌قطری با درایه‌های زیر است:
+                </p>
+                <p>$$M_{ij}^e = \begin{cases} h_e \left( \frac{1}{2j+1} + \frac{1}{2j+5} \right), & i = j, \\ -h_e \frac{1}{2j+5}, & i = j + 2, \\ -h_e \frac{1}{2j+1}, & i = j - 2, \\ 0, & \text{otherwise}. \end{cases}$$</p>
+
+                <h3>۳.۲. ماتریس سختی</h3>
+                <p>
+                    اگر $h_e = t_e - t_{e-1}$، آنگاه ماتریس سختی روی هر المان به‌صورت زیر محاسبه می‌شود:
+                </p>
+                <p>$$S_{ij}^e = \int_{t_{e-1}}^{t_e} \frac{d\phi_i(t)}{dt} \frac{d\phi_j(t)}{dt} dt = \frac{2}{h_e} \int_{-1}^{1} \frac{d\phi_i(x)}{dx} \frac{d\phi_j(x)}{dx} dx,$$</p>
+                <p>
+                    که یک ماتریس قطری با درایه‌های زیر است:
+                </p>
+                <p>$$S_{ij}^e = \begin{cases} h_e^{-1} (8i + 12), & i = j, \\ 0, & i \neq j. \end{cases}$$</p>
+
+                <h2>۴. MSEM برای RLWE</h2>
+                <h3>۴.۱. طرح گسسته زمانی</h3>
+                <p>
+                    برای به دست آوردن یک طرح نیمه‌گسسته در زمان برای معادله (۱.۱)، ابتدا بازه $[0, T]$ را به $M$ زیربازه $[t_m, t_{m+1}]$ تقسیم می‌کنیم که $t_{m+1} = t_m + \tau$، $t_0 = 0$ و $m = 0, 1, \dots, M-1$.
+                </p>
+
+                <h3>۴.۲. طرح گسسته مکانی</h3>
+                <p>
+                    فرم ضعیف معادله (۴.۱) به‌صورت زیر است: برای هر المان $\Omega_e$، $u^e \in U^h$ را پیدا کنید به‌طوری که:
+                </p>
+                <p>$$\int_{\Omega_e} \left( u^{n+1} + \tau \frac{1 + \epsilon \pi}{2} u_x^{n+1} - \mu u_{xx}^{n+1} \right) v dx = \int_{\Omega_e} \left( u^n - \tau \frac{1 + \epsilon \pi}{2} u_x^n - \mu u_{xx}^n \right) v dx, \quad \forall v \in U^h.$$</p>
+
+                <h2>۵. تحلیل پایداری و همگرایی</h2>
+                <h3>۵.۱. پایداری گسسته‌سازی زمانی</h3>
+                <p>
+                    برای بررسی پایداری طرح (۴.۱)، از روش فوریه بر اساس قضیه فون نویمان استفاده می‌کنیم. 
+                    برای این کار، مد فوریه $u^n = \xi^n e^{i\beta x}$ را در (۴.۱) جایگزین می‌کنیم.
+                </p>
+                <p>
+                    با گرفتن مدول عامل رشد $|\xi| = 1$، طرح (۴.۱) به‌طور شرطی پایدار است.
+                </p>
+
+                <h3>۵.۲. همگرایی MSEM</h3>
+                <div class="theorem">
+                    <strong>قضیه ۵.۶:</strong> 
+                    اگر $u^n$ جواب دقیق معادلات (۱.۱)-(۱.۳) و $u_h^n$ جواب طرح کاملاً گسسته (۴.۳) باشد، 
+                    آنگاه تخمین خطای زیر برای طرح کاملاً گسسته (۴.۳) به دست می‌آید:
+                    $$\|u^n - u_h^n\| \leq \|\aleph_N^n\| + C \tau N^{1-k} \left( h^{\min(N+1, k-1)} \|u\|_k + (n+1) \theta e^{n+1} \right).$$
+                </div>
+
+                <h2>۶. مثال‌های عددی</h2>
+                <p>
+                    در این بخش چندین مثال عددی را برای نشان دادن دقت و کارایی MSEM در نظر می‌گیریم. 
+                    دقت و پایداری MSEM را با انجام عملکرد ذکرشده برای مقادیر مختلف $N_e$، $N$ و $\tau$ نشان می‌دهیم.
+                </p>
+
+                <h3>۶.۱. حرکت یک موج منفرد (MSSW)</h3>
+                <p>
+                    در این حالت، معادله (۱.۱) را با شرایط مرزی و اولیه زیر در نظر می‌گیریم:
+                </p>
+                <p>$$u(\alpha, t) = 0, \quad u(\beta, t) = 0,$$</p>
+                <p>$$u(x, 0) = 3c \operatorname{sech}^2(\rho(x - x_0)),$$</p>
+                <p>
+                    که $\rho = \frac{1}{2} \left( \frac{\epsilon c}{\mu(1 + \epsilon c)} \right)$.
+                </p>
+                <p>
+                    جواب دقیق عبارت است از:
+                </p>
+                <p>$$u(x, t) = 3c \operatorname{sech}^2(\rho(x - x_0 - (1 + \epsilon c)t)).$$</p>
+
+                <div class="table-container">
+                    <h4>جدول ۲. نرم‌های خطا برای MSSW با مقادیر مختلف N و N_e</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>N</th>
+                                <th>N_e</th>
+                                <th>c = 0.1 (L₂)</th>
+                                <th>c = 0.1 (L∞)</th>
+                                <th>c = 0.3 (L₂)</th>
+                                <th>c = 0.3 (L∞)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>۳</td><td>۱۰</td><td>1.3506×10⁻³</td><td>6.2047×10⁻⁴</td><td>3.0245×10⁻³</td><td>2.1786×10⁻⁴</td></tr>
+                            <tr><td>۴</td><td>۹</td><td>7.2534×10⁻⁴</td><td>1.8753×10⁻⁴</td><td>9.2506×10⁻⁴</td><td>1.0502×10⁻⁴</td></tr>
+                            <tr><td>۵</td><td>۸</td><td>2.0982×10⁻⁴</td><td>7.1348×10⁻⁵</td><td>3.0105×10⁻⁴</td><td>8.8147×10⁻⁵</td></tr>
+                            <tr><td>۶</td><td>۷</td><td>8.9058×10⁻⁵</td><td>4.1270×10⁻⁵</td><td>9.6324×10⁻⁵</td><td>6.2785×10⁻⁵</td></tr>
+                            <tr><td>۷</td><td>۶</td><td>7.5469×10⁻⁵</td><td>3.9575×10⁻⁵</td><td>7.1576×10⁻⁵</td><td>4.9706×10⁻⁵</td></tr>
+                            <tr><td>۸</td><td>۵</td><td>9.4854×10⁻⁵</td><td>3.8003×10⁻⁵</td><td>8.1419×10⁻⁵</td><td>6.4218×10⁻⁵</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>۶.۲. موج‌های ناهموار (Undular Bore)</h3>
+                <p>
+                    در این مسائل، معادله RLWE (۱.۱) را با شرط اولیه زیر در نظر می‌گیریم:
+                </p>
+                <p>$$u(x, 0) = \frac{U_0}{2} \left( 1 - \tanh \left( \frac{x - x_0}{d} \right) \right),$$</p>
+                <p>
+                    و شرایط مرزی $u(\alpha, t) = U_0$، $u(\beta, t) = 0$.
+                </p>
+
+                <h2>۷. نتیجه‌گیری</h2>
+                <p>
+                    در این مقاله، یک روش المان طیفی جدید بر اساس چندجمله‌ای‌های مانتز-لژاندر برای حل معادله موج بلند منظم ارائه شد. 
+                    ماتریس‌های جرم و سختی به‌دست‌آمده ساختار سه‌قطری و قطری دارند که منجر به کارایی محاسباتی بالایی می‌شود. 
+                    پایداری و همگرایی روش RLWE اثبات شد. 
+                    نتایج عددی را با نتایج قبلی مقایسه کردیم و کارایی روش معرفی‌شده را نشان دادیم. 
+                    در MSEM، دقت جواب عددی را می‌توان با افزایش $N$ یا $N_e$ افزایش داد. 
+                    ماتریس‌های به‌دست‌آمده از MSEM تُنُک هستند و عدد وضعیت کوچک‌تری نسبت به روش LSEM دارند.
+                </p>
+
+                <h2>منابع</h2>
+                <ul class="references">
+                    <li>Richtmyer, R. D., & Morton, K. W. (1967). Difference Methods for Initial-Value Problems. Interscience Publishers.</li>
+                    <li>Patera, A. T. (1984). A spectral element method for fluid dynamics. J. Comput. Phys., 54(3), 468-488.</li>
+                    <li>Müntz, Ch. H. (1914). Über den Approximationssatz von Weierstrass. Springer, Berlin, 303-312.</li>
+                    <li>Szász, O. (1916). Über die Approximation stetiger Funktionen durch lineare Aggregate von Potenzen. Math. Ann., 77, 482-496.</li>
+                    <li>Lotfi, M., & Alipanah, A. (2019). Legendre spectral element method for solving sine-Gordon equation. Adv. Difference Equ., 2019(1), 113.</li>
+                    <li>Borwein, P., Erdélyi, T., & Zhang, J. (1994). Müntz systems and orthogonal Müntz-Legendre polynomials. Trans. Amer. Math. Soc., 342(2), 523-542.</li>
+                    <li>Smith, G. D. (1985). Numerical Solution of Partial Differential Equations: Finite Difference Methods. Clarendon Press.</li>
+                    <li>Quarteroni, A., & Valli, A. (1994). Numerical Approximation of Partial Differential Equations. Springer.</li>
+                    <li>Dag, I., & Özer, M. N. (2001). Approximation of the RLW equation by the least square cubic B-spline finite element method. Appl. Math. Model., 25(3), 221-231.</li>
+                    <li>Zaki, A. (2001). Solitary waves of the splitted RLW equation. Comput. Phys. Comm., 138(1), 80-91.</li>
+                </ul>
+
+            </div>
+
+            <div class="pdf-download">
+                <a href="../pdf/article-2.pdf" class="btn-pdf" download>
+                    📥 دانلود نسخه PDF
+                </a>
+            </div>
+
+            <div class="back-link">
+                <a href="../index.html">← بازگشت به خانه</a>
+            </div>
+
+        </article>
+    </main>
+
+    <footer>
+        <p>© ۱۴۰۵ - مقاله‌های ریاضی</p>
+    </footer>
+
+</body>
+</html>

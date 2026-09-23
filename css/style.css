@@ -1,0 +1,240 @@
+/* ریست */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Vazir', 'Tahoma', sans-serif;
+    background: #f0f4f8;
+    color: #2c3e50;
+    direction: rtl;
+    line-height: 1.8;
+}
+
+/* هدر */
+header {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    font-size: 3rem;
+}
+
+header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.2rem;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+nav {
+    display: flex;
+    gap: 0.5rem;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+nav a:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* خوش‌آمد */
+.hero {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    text-align: center;
+    padding: 3rem 2rem;
+}
+
+.hero h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    opacity: 0.95;
+}
+
+/* جستجو */
+.search-section {
+    padding: 2rem;
+    text-align: center;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.search-section input {
+    width: 100%;
+    max-width: 600px;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    border: 2px solid #e0e7ff;
+    border-radius: 30px;
+    outline: none;
+    transition: border-color 0.3s;
+    font-family: inherit;
+}
+
+.search-section input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
+}
+
+/* مقاله‌ها */
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    color: #1e3c72;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.article-card {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+    border-top: 4px solid #667eea;
+}
+
+.article-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.article-icon {
+    font-size: 3rem;
+    color: #667eea;
+    margin-bottom: 1rem;
+    font-family: 'Times New Roman', serif;
+}
+
+.article-card h3 {
+    color: #1e3c72;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.article-meta {
+    color: #888;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.article-card p {
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+.article-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn, .btn-pdf {
+    padding: 0.7rem 1.3rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.btn {
+    background: #667eea;
+    color: white;
+}
+
+.btn:hover {
+    background: #5568d3;
+    transform: scale(1.05);
+}
+
+.btn-pdf {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-pdf:hover {
+    background: #c0392b;
+    transform: scale(1.05);
+}
+
+/* فوتر */
+footer {
+    background: #1e3c72;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+footer p {
+    margin: 0.3rem 0;
+}
+
+/* موبایل */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    header h1 {
+        font-size: 1.4rem;
+    }
+    
+    .hero h2 {
+        font-size: 1.5rem;
+    }
+    
+    .articles-grid {
+        grid-template-columns: 1fr;
+    }
+}

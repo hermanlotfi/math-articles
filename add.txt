@@ -1,0 +1,12 @@
+index:
+<article class="article-card">
+    <div class="article-icon">∑</div>
+    <h3>عنوان مقاله جدید</h3>
+    <p class="article-meta">📅 ۱۴۰۵/۰۷/۱</p>
+    <p>خلاصه مقاله جدید...</p>
+    <div class="article-actions">
+        <a href="articles/article-2.html" class="btn">📖 خواندن</a>
+        <a href="pdf/article-2.pdf" class="btn-pdf" download>📥 دانلود PDF</a>
+    </div>
+</article>
+artcles: deepseek help you
