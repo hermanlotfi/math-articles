@@ -1,1 +1,94 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامه هفتگی - محمود لطفی</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/schedule.css">
+</head>
+<body>
 
+    <!-- هدر -->
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <span class="logo">📅</span>
+                <div>
+                    <h1><a href="index.html">برنامه هفتگی</a></h1>
+                    <p class="subtitle">برنامه‌ریزی هفتگی من</p>
+                </div>
+            </div>
+            <nav>
+                <a href="index.html">🏠 خانه</a>
+                <a href="about.html">درباره</a>
+                <a href="schedule.html" class="active">📅 برنامه هفتگی</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- برنامه هفتگی -->
+    <main class="schedule-main">
+        
+        <section class="schedule-hero">
+            <h2>📅 برنامه هفتگی من</h2>
+            <p>اینجا برنامه‌ی هفتگی‌ام رو می‌نویسم و هر وقت خواستم تغییرش می‌دم</p>
+        </section>
+
+        <!-- دکمه‌ها -->
+        <div class="schedule-actions">
+            <button onclick="addRow()" class="btn-add">➕ افزودن ردیف</button>
+            <button onclick="clearAll()" class="btn-clear">🗑️ پاک کردن همه</button>
+            <button onclick="saveData()" class="btn-save">💾 ذخیره</button>
+            <button onclick="exportData()" class="btn-export">📥 خروجی</button>
+        </div>
+
+        <!-- جدول -->
+        <div class="table-wrapper">
+            <table class="schedule-table" id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th>روز</th>
+                        <th>ساعت</th>
+                        <th>برنامه</th>
+                        <th>توضیحات</th>
+                        <th>وضعیت</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody">
+                    <!-- ردیف‌ها اینجا -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- آمار -->
+        <div class="schedule-stats">
+            <h3>📊 آمار</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalTasks">۰</span>
+                    <span class="stat-label">کل برنامه‌ها</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="doneTasks">۰</span>
+                    <span class="stat-label">انجام شده</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="pendingTasks">۰</span>
+                    <span class="stat-label">در انتظار</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- فوتر -->
+    <footer>
+        <p>© ۱۴۰۵ - برنامه هفتگی</p>
+    </footer>
+
+    <script src="js/schedule.js"></script>
+
+</body>
+</html>
