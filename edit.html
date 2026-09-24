@@ -3,10 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ورود ادمین - مقاله‌های ریاضی</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>پنل مدیریت</title>
     <style>
-        .login-container {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Tahoma, sans-serif;
+            background: #f0f4f8;
+            direction: rtl;
+            line-height: 1.8;
+        }
+        
+        /* ورود */
+        .login-screen {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,25 +38,14 @@
             text-align: center;
         }
         
-        .login-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
-        
         .login-box h1 {
             color: #1e3c72;
-            margin-bottom: 0.5rem;
-            font-size: 1.8rem;
-        }
-        
-        .login-box p {
-            color: #666;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
         
         .login-input {
             width: 100%;
-            padding: 1rem 1.5rem;
+            padding: 1rem;
             font-size: 1.1rem;
             border: 2px solid #e0e7ff;
             border-radius: 12px;
@@ -51,12 +53,10 @@
             margin-bottom: 1rem;
             font-family: inherit;
             box-sizing: border-box;
-            transition: border-color 0.3s;
         }
         
         .login-input:focus {
             border-color: #667eea;
-            box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
         }
         
         .login-btn {
@@ -67,58 +67,334 @@
             border: none;
             border-radius: 12px;
             font-size: 1.1rem;
-            font-weight: bold;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
             font-family: inherit;
         }
         
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102,126,234,0.4);
-        }
-        
-        .login-error {
-            background: #ffe0e0;
-            color: #e74c3c;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-top: 1rem;
+        /* پنل */
+        .admin-panel {
             display: none;
+            min-height: 100vh;
         }
         
-        .login-error.show {
+        .admin-panel.show {
             display: block;
-            animation: shake 0.5s;
         }
         
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
+        .admin-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
         
-        .back-link {
-            display: block;
-            margin-top: 2rem;
-            color: #667eea;
-            text-decoration: none;
+        .admin-header h1 {
+            font-size: 1.4rem;
+        }
+        
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
             font-size: 0.95rem;
         }
         
-        .back-link:hover {
-            text-decoration: underline;
+        .admin-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: white;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .tab:hover {
+            border-color: #667eea;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card h2 {
+            color: #1e3c72;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+            box-sizing: border-box;
+        }
+        
+        .form-input:focus {
+            border-color: #667eea;
+        }
+        
+        .form-textarea {
+            min-height: 200px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin-left: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #27ae60;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+        
+        .btn-secondary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #2980b9;
+        }
+        
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+        
+        /* لیست مقاله‌ها */
+        .articles-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .article-item {
+            background: #f8f9ff;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #e0e7ff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            transition: all 0.3s;
+        }
+        
+        .article-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.15);
+        }
+        
+        .article-item-info {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .article-item-info h3 {
+            color: #1e3c72;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .article-item-info p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .article-item-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .article-item-actions button {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        /* خالی */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #888;
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        /* خروجی */
+        .output-box {
+            background: #2c3e50;
+            color: #2ecc71;
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            direction: ltr;
+            text-align: left;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-top: 1rem;
+        }
+        
+        /* چاپ */
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            background: #9b59b6;
+            color: white;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(155,89,182,0.4);
+            font-weight: bold;
+        }
+        
+        .print-btn:hover {
+            background: #8e44ad;
+        }
+        
+        /* پیام */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2ecc71;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            font-family: inherit;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translate(-50%, 20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+        
+        /* موبایل */
+        @media (max-width: 768px) {
+            .article-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .article-item-actions {
+                justify-content: center;
+            }
+            
+            .btn {
+                width: 100%;
+                margin: 0.3rem 0;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
+    <!-- صفحه ورود -->
+    <div class="login-screen" id="loginScreen">
         <div class="login-box">
-            <div class="login-icon">🔐</div>
-            <h1>ورود ادمین</h1>
-            <p>برای دسترسی به پنل مدیریت، رمز عبور را وارد کنید</p>
-            
+            <h1>🔐 ورود ادمین</h1>
             <input 
                 type="password" 
                 id="password" 
@@ -126,46 +402,384 @@
                 placeholder="رمز عبور..."
                 onkeypress="if(event.key === 'Enter') checkPassword()"
             >
+            <button onclick="checkPassword()" class="login-btn">🔓 ورود</button>
+        </div>
+    </div>
+
+    <!-- پنل مدیریت -->
+    <div class="admin-panel" id="adminPanel">
+        
+        <div class="admin-header">
+            <h1>🔐 پنل مدیریت</h1>
+            <button onclick="logout()" class="logout-btn">🚪 خروج</button>
+        </div>
+        
+        <div class="admin-main">
             
-            <button onclick="checkPassword()" class="login-btn">
-                🔓 ورود
-            </button>
-            
-            <div class="login-error" id="error">
-                ❌ رمز عبور اشتباه است!
+            <!-- تب‌ها -->
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('articles')">📚 مقاله‌ها</button>
+                <button class="tab" onclick="showTab('settings')">⚙️ تنظیمات</button>
+                <button class="tab" onclick="showTab('output')">📤 خروجی</button>
             </div>
             
-            <a href="index.html" class="back-link">← بازگشت به خانه</a>
+            <!-- تب مقاله‌ها -->
+            <div class="tab-content active" id="tab-articles">
+                
+                <div class="card">
+                    <h2>📝 افزودن مقاله جدید</h2>
+                    
+                    <div class="form-group">
+                        <label>عنوان مقاله:</label>
+                        <input 
+                            type="text" 
+                            id="articleTitle" 
+                            class="form-input" 
+                            placeholder="مثلاً: تحلیل محتوای کتاب‌های ریاضی..."
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>تاریخ:</label>
+                        <input 
+                            type="text" 
+                            id="articleDate" 
+                            class="form-input" 
+                            placeholder="مثلاً: ۱۴۰۵/۰۷/۰۱"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>آیکون:</label>
+                        <input 
+                            type="text" 
+                            id="articleIcon" 
+                            class="form-input" 
+                            placeholder="∫ یا ∑ یا π"
+                            maxlength="2"
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>خلاصه:</label>
+                        <input 
+                            type="text" 
+                            id="articleSummary" 
+                            class="form-input" 
+                            placeholder="خلاصه کوتاه مقاله..."
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>متن مقاله (HTML):</label>
+                        <textarea 
+                            id="articleContent" 
+                            class="form-input form-textarea" 
+                            placeholder="<h2>مقدمه</h2>&#10;<p>متن مقاله...</p>"
+                        ></textarea>
+                    </div>
+                    
+                    <button onclick="addArticle()" class="btn btn-primary">➕ افزودن مقاله</button>
+                </div>
+                
+                <div class="card">
+                    <h2>📚 لیست مقاله‌ها</h2>
+                    <div class="articles-list" id="articlesList">
+                        <!-- مقالات اینجا -->
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- تب تنظیمات -->
+            <div class="tab-content" id="tab-settings">
+                <div class="card">
+                    <h2>⚙️ تنظیمات سایت</h2>
+                    
+                    <div class="form-group">
+                        <label>عنوان سایت:</label>
+                        <input type="text" id="siteTitle" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>زیرعنوان:</label>
+                        <input type="text" id="siteSubtitle" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>اسم نویسنده:</label>
+                        <input type="text" id="authorName" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>ایمیل تماس:</label>
+                        <input type="text" id="contactEmail" class="form-input">
+                    </div>
+                    
+                    <button onclick="saveSettings()" class="btn btn-primary">💾 ذخیره تنظیمات</button>
+                </div>
+            </div>
+            
+            <!-- تب خروجی -->
+            <div class="tab-content" id="tab-output">
+                <div class="card">
+                    <h2>📤 خروجی کد</h2>
+                    <p>این کد رو کپی کن و توی <code>index.html</code> جایگزین کن:</p>
+                    
+                    <button onclick="generateOutput()" class="btn btn-secondary">🔄 تولید کد</button>
+                    <button onclick="copyOutput()" class="btn btn-warning">📋 کپی</button>
+                    <button onclick="downloadOutput()" class="btn btn-primary">💾 دانلود</button>
+                    
+                    <div class="output-box" id="outputBox">برای دیدن کد، دکمه «تولید کد» رو بزن...</div>
+                </div>
+            </div>
+            
         </div>
     </div>
 
     <script>
-        // ⚠️ رمز رو اینجا عوض کن!
-        const ADMIN_PASSWORD = "123456789";
+        // رمز
+        const ADMIN_PASSWORD = "math1404";
         
+        // داده‌ها
+        let articles = JSON.parse(localStorage.getItem('articles')) || [];
+        let settings = JSON.parse(localStorage.getItem('settings')) || {
+            siteTitle: 'مقاله‌های ریاضی',
+            siteSubtitle: 'مجموعه‌ای از مقالات ریاضی',
+            authorName: 'محمود لطفی',
+            contactEmail: 'example@email.com'
+        };
+        
+        // ورود
         function checkPassword() {
             const input = document.getElementById('password');
-            const error = document.getElementById('error');
             
             if (input.value === ADMIN_PASSWORD) {
-                // ذخیره در sessionStorage
                 sessionStorage.setItem('isAdmin', 'true');
-                // رفتن به پنل
-                window.location.href = 'admin-panel.html';
+                showPanel();
             } else {
-                error.classList.add('show');
+                alert('❌ رمز اشتباه است!');
                 input.value = '';
-                input.focus();
-                
-                setTimeout(() => {
-                    error.classList.remove('show');
-                }, 3000);
             }
         }
         
-        // اگه قبلاً وارد شده، مستقیم بره
+        function showPanel() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminPanel').classList.add('show');
+            loadSettings();
+            renderArticles();
+        }
+        
+        function logout() {
+            if (confirm('خارج می‌شوید؟')) {
+                sessionStorage.removeItem('isAdmin');
+                location.reload();
+            }
+        }
+        
+        // تب‌ها
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
+        }
+        
+        // افزودن مقاله
+        function addArticle() {
+            const title = document.getElementById('articleTitle').value.trim();
+            const date = document.getElementById('articleDate').value.trim();
+            const icon = document.getElementById('articleIcon').value.trim();
+            const summary = document.getElementById('articleSummary').value.trim();
+            const content = document.getElementById('articleContent').value.trim();
+            
+            if (!title) {
+                alert('❌ عنوان مقاله رو بنویس!');
+                return;
+            }
+            
+            if (!content) {
+                alert('❌ متن مقاله رو بنویس!');
+                return;
+            }
+            
+            articles.push({
+                id: Date.now(),
+                title: title,
+                date: date || '۱۴۰۵/۰۷/۰۱',
+                icon: icon || '∫',
+                summary: summary || '',
+                content: content
+            });
+            
+            saveArticles();
+            renderArticles();
+            clearForm();
+            showToast('✅ مقاله اضافه شد!');
+        }
+        
+        // پاک کردن فرم
+        function clearForm() {
+            document.getElementById('articleTitle').value = '';
+            document.getElementById('articleDate').value = '';
+            document.getElementById('articleIcon').value = '';
+            document.getElementById('articleSummary').value = '';
+            document.getElementById('articleContent').value = '';
+        }
+        
+        // ذخیره
+        function saveArticles() {
+            localStorage.setItem('articles', JSON.stringify(articles));
+        }
+        
+        // نمایش مقاله‌ها
+        function renderArticles() {
+            const list = document.getElementById('articlesList');
+            
+            if (articles.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <span class="empty-state-icon">📭</span>
+                        <p>هنوز مقاله‌ای اضافه نشده!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            list.innerHTML = articles.map((article, index) => `
+                <div class="article-item">
+                    <div class="article-item-info">
+                        <h3>${article.icon} ${article.title}</h3>
+                        <p>📅 ${article.date} ${article.summary ? '| ' + article.summary : ''}</p>
+                    </div>
+                    <div class="article-item-actions">
+                        <button onclick="moveUp(${index})" class="btn btn-secondary" ${index === 0 ? 'disabled' : ''}>⬆️</button>
+                        <button onclick="moveDown(${index})" class="btn btn-secondary" ${index === articles.length - 1 ? 'disabled' : ''}>⬇️</button>
+                        <button onclick="editArticle(${index})" class="btn btn-warning">✏️</button>
+                        <button onclick="deleteArticle(${index})" class="btn btn-danger">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // جابجایی بالا
+        function moveUp(index) {
+            if (index === 0) return;
+            [articles[index - 1], articles[index]] = [articles[index], articles[index - 1]];
+            saveArticles();
+            renderArticles();
+        }
+        
+        // جابجایی پایین
+        function moveDown(index) {
+            if (index === articles.length - 1) return;
+            [articles[index], articles[index + 1]] = [articles[index + 1], articles[index]];
+            saveArticles();
+            renderArticles();
+        }
+        
+        // ویرایش
+        function editArticle(index) {
+            const article = articles[index];
+            document.getElementById('articleTitle').value = article.title;
+            document.getElementById('articleDate').value = article.date;
+            document.getElementById('articleIcon').value = article.icon;
+            document.getElementById('articleSummary').value = article.summary;
+            document.getElementById('articleContent').value = article.content;
+            
+            // حذف از لیست
+            articles.splice(index, 1);
+            saveArticles();
+            renderArticles();
+            
+            showToast('✏️ حالا ویرایش کن و دوباره اضافه کن');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // حذف
+        function deleteArticle(index) {
+            if (!confirm('این مقاله حذف بشه؟')) return;
+            articles.splice(index, 1);
+            saveArticles();
+            renderArticles();
+            showToast('🗑️ حذف شد!');
+        }
+        
+        // تنظیمات
+        function loadSettings() {
+            document.getElementById('siteTitle').value = settings.siteTitle;
+            document.getElementById('siteSubtitle').value = settings.siteSubtitle;
+            document.getElementById('authorName').value = settings.authorName;
+            document.getElementById('contactEmail').value = settings.contactEmail;
+        }
+        
+        function saveSettings() {
+            settings.siteTitle = document.getElementById('siteTitle').value;
+            settings.siteSubtitle = document.getElementById('siteSubtitle').value;
+            settings.authorName = document.getElementById('authorName').value;
+            settings.contactEmail = document.getElementById('contactEmail').value;
+            
+            localStorage.setItem('settings', JSON.stringify(settings));
+            showToast('💾 تنظیمات ذخیره شد!');
+        }
+        
+        // تولید خروجی
+        function generateOutput() {
+            let output = '';
+            
+            // کارت‌ها
+            articles.forEach(article => {
+                output += `
+        <article class="article-card">
+            <div class="article-icon">${article.icon}</div>
+            <h3>${article.title}</h3>
+            <p class="article-meta">📅 ${article.date}</p>
+            <p>${article.summary}</p>
+            <div class="article-actions">
+                <a href="articles/article-${article.id}.html" class="btn">📖 خواندن</a>
+                <a href="pdf/article-${article.id}.pdf" class="btn-pdf" download>📥 دانلود PDF</a>
+            </div>
+        </article>`;
+            });
+            
+            document.getElementById('outputBox').textContent = output;
+        }
+        
+        // کپی
+        function copyOutput() {
+            const output = document.getElementById('outputBox').textContent;
+            navigator.clipboard.writeText(output).then(() => {
+                showToast('📋 کپی شد!');
+            });
+        }
+        
+        // دانلود
+        function downloadOutput() {
+            const output = document.getElementById('outputBox').textContent;
+            const blob = new Blob([output], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'articles-cards.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('💾 دانلود شد!');
+        }
+        
+        // پیام
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 2000);
+        }
+        
+        // شروع
         if (sessionStorage.getItem('isAdmin') === 'true') {
-            window.location.href = 'admin-panel.html';
+            showPanel();
         }
     </script>
 
