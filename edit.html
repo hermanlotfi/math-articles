@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پنل مدیریت</title>
+    <title>پنل مدیریت کامل</title>
     <style>
         * {
             margin: 0;
@@ -69,6 +69,7 @@
             font-size: 1.1rem;
             cursor: pointer;
             font-family: inherit;
+            font-weight: bold;
         }
         
         /* پنل */
@@ -89,14 +90,21 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .admin-header h1 {
             font-size: 1.4rem;
         }
         
-        .logout-btn {
-            background: #e74c3c;
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .logout-btn, .preview-btn {
             color: white;
             border: none;
             padding: 0.6rem 1.2rem;
@@ -104,6 +112,23 @@
             cursor: pointer;
             font-family: inherit;
             font-size: 0.95rem;
+            font-weight: bold;
+        }
+        
+        .logout-btn {
+            background: #e74c3c;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+        
+        .preview-btn {
+            background: #2ecc71;
+        }
+        
+        .preview-btn:hover {
+            background: #27ae60;
         }
         
         .admin-main {
@@ -117,27 +142,33 @@
             gap: 0.5rem;
             margin-bottom: 2rem;
             flex-wrap: wrap;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
         
         .tab {
-            padding: 0.8rem 1.5rem;
-            background: white;
-            border: 2px solid #e0e7ff;
-            border-radius: 10px;
+            padding: 0.8rem 1.2rem;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
             font-family: inherit;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: all 0.3s;
+            font-weight: bold;
+            color: #666;
         }
         
         .tab.active {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            border-color: transparent;
         }
         
-        .tab:hover {
-            border-color: #667eea;
+        .tab:hover:not(.active) {
+            background: #f0f4ff;
+            color: #667eea;
         }
         
         .tab-content {
@@ -146,6 +177,12 @@
         
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .card {
@@ -160,10 +197,13 @@
             color: #1e3c72;
             margin-bottom: 1.5rem;
             font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
         
         .form-group label {
@@ -176,25 +216,34 @@
         
         .form-input {
             width: 100%;
-            padding: 1rem;
+            padding: 0.9rem;
             border: 2px solid #e0e7ff;
             border-radius: 10px;
             font-family: inherit;
-            font-size: 1rem;
+            font-size: 0.95rem;
             outline: none;
             box-sizing: border-box;
+            transition: border-color 0.3s;
         }
         
         .form-input:focus {
             border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
         }
         
         .form-textarea {
-            min-height: 200px;
+            min-height: 150px;
             resize: vertical;
             font-family: 'Courier New', monospace;
             direction: ltr;
             text-align: left;
+            line-height: 1.6;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
         }
         
         .btn {
@@ -202,12 +251,13 @@
             border: none;
             border-radius: 10px;
             font-family: inherit;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s;
-            margin-left: 0.5rem;
-            margin-bottom: 0.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
         }
         
         .btn-primary {
@@ -217,6 +267,7 @@
         
         .btn-primary:hover {
             background: #27ae60;
+            transform: translateY(-2px);
         }
         
         .btn-danger {
@@ -246,16 +297,21 @@
             background: #e67e22;
         }
         
-        /* لیست مقاله‌ها */
-        .articles-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        .btn-sm {
+            padding: 0.4rem 0.7rem;
+            font-size: 0.85rem;
         }
         
-        .article-item {
+        /* لیست */
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .list-item {
             background: #f8f9ff;
-            padding: 1.5rem;
+            padding: 1.2rem;
             border-radius: 12px;
             border: 2px solid #e0e7ff;
             display: flex;
@@ -266,37 +322,31 @@
             transition: all 0.3s;
         }
         
-        .article-item:hover {
+        .list-item:hover {
             border-color: #667eea;
             box-shadow: 0 4px 15px rgba(102,126,234,0.15);
         }
         
-        .article-item-info {
+        .list-item-info {
             flex: 1;
             min-width: 200px;
         }
         
-        .article-item-info h3 {
+        .list-item-info h3 {
             color: #1e3c72;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             margin-bottom: 0.3rem;
         }
         
-        .article-item-info p {
+        .list-item-info p {
             color: #888;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
-        .article-item-actions {
+        .list-item-actions {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.4rem;
             flex-wrap: wrap;
-        }
-        
-        .article-item-actions button {
-            padding: 0.5rem 0.8rem;
-            font-size: 0.9rem;
-            margin: 0;
         }
         
         /* خالی */
@@ -322,32 +372,37 @@
             font-size: 0.85rem;
             direction: ltr;
             text-align: left;
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
             white-space: pre-wrap;
             word-wrap: break-word;
             margin-top: 1rem;
+            line-height: 1.5;
         }
         
-        /* چاپ */
-        .print-btn {
-            position: fixed;
-            bottom: 2rem;
-            left: 2rem;
-            background: #9b59b6;
+        /* جدول برنامه */
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .schedule-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 1rem 1.5rem;
-            border: none;
-            border-radius: 50px;
-            font-family: inherit;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(155,89,182,0.4);
-            font-weight: bold;
+            padding: 0.8rem;
+            font-size: 0.9rem;
         }
         
-        .print-btn:hover {
-            background: #8e44ad;
+        .schedule-table td {
+            padding: 0.5rem;
+            border-bottom: 1px solid #f0f0f0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .schedule-table tr:hover {
+            background: #f8f9ff;
         }
         
         /* پیام */
@@ -363,6 +418,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             z-index: 1000;
             font-family: inherit;
+            font-weight: bold;
             animation: slideUp 0.3s ease;
         }
         
@@ -371,20 +427,54 @@
             to { opacity: 1; transform: translate(-50%, 0); }
         }
         
+        /* آمار */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid transparent;
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-label {
+            display: block;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
         /* موبایل */
         @media (max-width: 768px) {
-            .article-item {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .list-item {
                 flex-direction: column;
                 align-items: stretch;
             }
             
-            .article-item-actions {
+            .list-item-actions {
                 justify-content: center;
             }
             
-            .btn {
-                width: 100%;
-                margin: 0.3rem 0;
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
             }
         }
     </style>
@@ -410,83 +500,136 @@
     <div class="admin-panel" id="adminPanel">
         
         <div class="admin-header">
-            <h1>🔐 پنل مدیریت</h1>
-            <button onclick="logout()" class="logout-btn">🚪 خروج</button>
+            <h1>🔐 پنل مدیریت کامل</h1>
+            <div class="header-actions">
+                <button onclick="previewSite()" class="preview-btn">👁️ پیش‌نمایش</button>
+                <button onclick="logout()" class="logout-btn">🚪 خروج</button>
+            </div>
         </div>
         
         <div class="admin-main">
             
+            <!-- آمار -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number" id="statArticles">۰</span>
+                    <span class="stat-label">مقاله‌ها</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="statSchedule">۰</span>
+                    <span class="stat-label">برنامه‌ها</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="statDone">۰</span>
+                    <span class="stat-label">انجام شده</span>
+                </div>
+            </div>
+            
             <!-- تب‌ها -->
             <div class="tabs">
-                <button class="tab active" onclick="showTab('articles')">📚 مقاله‌ها</button>
-                <button class="tab" onclick="showTab('settings')">⚙️ تنظیمات</button>
-                <button class="tab" onclick="showTab('output')">📤 خروجی</button>
+                <button class="tab active" onclick="showTab('articles', event)">📚 مقاله‌ها</button>
+                <button class="tab" onclick="showTab('schedule', event)">📅 درس‌های من</button>
+                <button class="tab" onclick="showTab('settings', event)">⚙️ تنظیمات سایت</button>
+                <button class="tab" onclick="showTab('about', event)">👨‍🏫 درباره</button>
+                <button class="tab" onclick="showTab('output', event)">📤 خروجی</button>
             </div>
             
             <!-- تب مقاله‌ها -->
             <div class="tab-content active" id="tab-articles">
                 
                 <div class="card">
-                    <h2>📝 افزودن مقاله جدید</h2>
+                    <h2>➕ افزودن مقاله جدید</h2>
                     
-                    <div class="form-group">
-                        <label>عنوان مقاله:</label>
-                        <input 
-                            type="text" 
-                            id="articleTitle" 
-                            class="form-input" 
-                            placeholder="مثلاً: تحلیل محتوای کتاب‌های ریاضی..."
-                        >
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>عنوان مقاله:</label>
+                            <input type="text" id="articleTitle" class="form-input" placeholder="عنوان...">
+                        </div>
+                        <div class="form-group">
+                            <label>تاریخ:</label>
+                            <input type="text" id="articleDate" class="form-input" placeholder="۱۴۰۵/۰۷/۰۱">
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label>تاریخ:</label>
-                        <input 
-                            type="text" 
-                            id="articleDate" 
-                            class="form-input" 
-                            placeholder="مثلاً: ۱۴۰۵/۰۷/۰۱"
-                        >
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>آیکون:</label>
-                        <input 
-                            type="text" 
-                            id="articleIcon" 
-                            class="form-input" 
-                            placeholder="∫ یا ∑ یا π"
-                            maxlength="2"
-                        >
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>خلاصه:</label>
-                        <input 
-                            type="text" 
-                            id="articleSummary" 
-                            class="form-input" 
-                            placeholder="خلاصه کوتاه مقاله..."
-                        >
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>آیکون:</label>
+                            <input type="text" id="articleIcon" class="form-input" placeholder="∫ ∑ π" maxlength="3">
+                        </div>
+                        <div class="form-group">
+                            <label>خلاصه:</label>
+                            <input type="text" id="articleSummary" class="form-input" placeholder="خلاصه کوتاه...">
+                        </div>
                     </div>
                     
                     <div class="form-group">
                         <label>متن مقاله (HTML):</label>
-                        <textarea 
-                            id="articleContent" 
-                            class="form-input form-textarea" 
-                            placeholder="<h2>مقدمه</h2>&#10;<p>متن مقاله...</p>"
-                        ></textarea>
+                        <textarea id="articleContent" class="form-input form-textarea" placeholder="<h2>مقدمه</h2>&#10;<p>متن مقاله...</p>"></textarea>
                     </div>
                     
                     <button onclick="addArticle()" class="btn btn-primary">➕ افزودن مقاله</button>
+                    <button onclick="clearArticleForm()" class="btn btn-secondary">🧹 پاک کردن فرم</button>
                 </div>
                 
                 <div class="card">
                     <h2>📚 لیست مقاله‌ها</h2>
-                    <div class="articles-list" id="articlesList">
-                        <!-- مقالات اینجا -->
+                    <div class="list" id="articlesList"></div>
+                </div>
+                
+            </div>
+            
+            <!-- تب درس‌های من -->
+            <div class="tab-content" id="tab-schedule">
+                
+                <div class="card">
+                    <h2>➕ افزودن برنامه جدید</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>روز:</label>
+                            <select id="scheduleDay" class="form-input">
+                                <option value="شنبه">شنبه</option>
+                                <option value="یکشنبه">یکشنبه</option>
+                                <option value="دوشنبه">دوشنبه</option>
+                                <option value="سه‌شنبه">سه‌شنبه</option>
+                                <option value="چهارشنبه">چهارشنبه</option>
+                                <option value="پنجشنبه">پنجشنبه</option>
+                                <option value="جمعه">جمعه</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>ساعت:</label>
+                            <input type="text" id="scheduleTime" class="form-input" placeholder="۸:۰۰">
+                        </div>
                     </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>برنامه:</label>
+                            <input type="text" id="scheduleTask" class="form-input" placeholder="ریاضی">
+                        </div>
+                        <div class="form-group">
+                            <label>توضیحات:</label>
+                            <input type="text" id="scheduleNote" class="form-input" placeholder="فصل ۱">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>وضعیت:</label>
+                        <select id="scheduleStatus" class="form-input">
+                            <option value="pending">⏳ در انتظار</option>
+                            <option value="done">✅ انجام شده</option>
+                            <option value="cancelled">❌ لغو شده</option>
+                        </select>
+                    </div>
+                    
+                    <button onclick="addSchedule()" class="btn btn-primary">➕ افزودن برنامه</button>
+                    <button onclick="clearScheduleForm()" class="btn btn-secondary">🧹 پاک کردن فرم</button>
+                </div>
+                
+                <div class="card">
+                    <h2>📅 لیست برنامه‌ها</h2>
+                    <div class="list" id="scheduleList"></div>
                 </div>
                 
             </div>
@@ -507,30 +650,77 @@
                     </div>
                     
                     <div class="form-group">
-                        <label>اسم نویسنده:</label>
-                        <input type="text" id="authorName" class="form-input">
+                        <label>لوگو (ایموجی):</label>
+                        <input type="text" id="siteLogo" class="form-input" maxlength="3">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>اسم نویسنده:</label>
+                            <input type="text" id="authorName" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>ایمیل تماس:</label>
+                            <input type="text" id="contactEmail" class="form-input">
+                        </div>
                     </div>
                     
                     <div class="form-group">
-                        <label>ایمیل تماس:</label>
-                        <input type="text" id="contactEmail" class="form-input">
+                        <label>رنگ اصلی:</label>
+                        <input type="color" id="primaryColor" class="form-input" value="#667eea">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>رنگ دوم:</label>
+                        <input type="color" id="secondaryColor" class="form-input" value="#764ba2">
                     </div>
                     
                     <button onclick="saveSettings()" class="btn btn-primary">💾 ذخیره تنظیمات</button>
                 </div>
             </div>
             
+            <!-- تب درباره -->
+            <div class="tab-content" id="tab-about">
+                <div class="card">
+                    <h2>👨‍🏫 صفحه درباره</h2>
+                    
+                    <div class="form-group">
+                        <label>اسم:</label>
+                        <input type="text" id="aboutName" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>عنوان شغلی:</label>
+                        <input type="text" id="aboutTitle" class="form-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>بیوگرافی:</label>
+                        <textarea id="aboutBio" class="form-input form-textarea"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>فلسفه آموزشی:</label>
+                        <textarea id="aboutPhilosophy" class="form-input form-textarea"></textarea>
+                    </div>
+                    
+                    <button onclick="saveAbout()" class="btn btn-primary">💾 ذخیره</button>
+                </div>
+            </div>
+            
             <!-- تب خروجی -->
             <div class="tab-content" id="tab-output">
                 <div class="card">
-                    <h2>📤 خروجی کد</h2>
-                    <p>این کد رو کپی کن و توی <code>index.html</code> جایگزین کن:</p>
+                    <h2>📤 خروجی کد کامل</h2>
+                    <p>این کدها رو کپی کن و توی فایل‌های سایت جایگزین کن:</p>
                     
-                    <button onclick="generateOutput()" class="btn btn-secondary">🔄 تولید کد</button>
-                    <button onclick="copyOutput()" class="btn btn-warning">📋 کپی</button>
-                    <button onclick="downloadOutput()" class="btn btn-primary">💾 دانلود</button>
+                    <div style="margin-top: 1rem;">
+                        <button onclick="generateAll()" class="btn btn-primary">🔄 تولید همه کدها</button>
+                        <button onclick="copyAll()" class="btn btn-warning">📋 کپی همه</button>
+                        <button onclick="downloadAll()" class="btn btn-secondary">💾 دانلود همه</button>
+                    </div>
                     
-                    <div class="output-box" id="outputBox">برای دیدن کد، دکمه «تولید کد» رو بزن...</div>
+                    <div class="output-box" id="outputBox">برای دیدن کدها، دکمه «تولید همه کدها» رو بزن...</div>
                 </div>
             </div>
             
@@ -543,11 +733,21 @@
         
         // داده‌ها
         let articles = JSON.parse(localStorage.getItem('articles')) || [];
+        let schedule = JSON.parse(localStorage.getItem('schedule')) || [];
         let settings = JSON.parse(localStorage.getItem('settings')) || {
             siteTitle: 'مقاله‌های ریاضی',
             siteSubtitle: 'مجموعه‌ای از مقالات ریاضی',
+            siteLogo: '📐',
             authorName: 'محمود لطفی',
-            contactEmail: 'example@email.com'
+            contactEmail: 'example@email.com',
+            primaryColor: '#667eea',
+            secondaryColor: '#764ba2'
+        };
+        let about = JSON.parse(localStorage.getItem('about')) || {
+            name: 'محمود لطفی',
+            title: 'پژوهشگر و نویسنده در حوزه آموزش ریاضی',
+            bio: 'سلام! من محمود لطفی هستم...',
+            philosophy: 'ریاضیات تنها محاسبه نیست...'
         };
         
         // ورود
@@ -566,8 +766,7 @@
         function showPanel() {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('adminPanel').classList.add('show');
-            loadSettings();
-            renderArticles();
+            loadAll();
         }
         
         function logout() {
@@ -577,16 +776,29 @@
             }
         }
         
+        function previewSite() {
+            window.open('index.html', '_blank');
+        }
+        
         // تب‌ها
-        function showTab(tabName) {
+        function showTab(tabName, event) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             
-            event.target.classList.add('active');
+            if (event) event.target.classList.add('active');
             document.getElementById('tab-' + tabName).classList.add('active');
         }
         
-        // افزودن مقاله
+        // بارگذاری همه
+        function loadAll() {
+            loadSettings();
+            loadAbout();
+            renderArticles();
+            renderSchedule();
+            updateStats();
+        }
+        
+        // ===== مقاله‌ها =====
         function addArticle() {
             const title = document.getElementById('articleTitle').value.trim();
             const date = document.getElementById('articleDate').value.trim();
@@ -594,13 +806,8 @@
             const summary = document.getElementById('articleSummary').value.trim();
             const content = document.getElementById('articleContent').value.trim();
             
-            if (!title) {
-                alert('❌ عنوان مقاله رو بنویس!');
-                return;
-            }
-            
-            if (!content) {
-                alert('❌ متن مقاله رو بنویس!');
+            if (!title || !content) {
+                alert('❌ عنوان و متن مقاله رو بنویس!');
                 return;
             }
             
@@ -615,12 +822,12 @@
             
             saveArticles();
             renderArticles();
-            clearForm();
+            clearArticleForm();
+            updateStats();
             showToast('✅ مقاله اضافه شد!');
         }
         
-        // پاک کردن فرم
-        function clearForm() {
+        function clearArticleForm() {
             document.getElementById('articleTitle').value = '';
             document.getElementById('articleDate').value = '';
             document.getElementById('articleIcon').value = '';
@@ -628,58 +835,48 @@
             document.getElementById('articleContent').value = '';
         }
         
-        // ذخیره
         function saveArticles() {
             localStorage.setItem('articles', JSON.stringify(articles));
         }
         
-        // نمایش مقاله‌ها
         function renderArticles() {
             const list = document.getElementById('articlesList');
             
             if (articles.length === 0) {
-                list.innerHTML = `
-                    <div class="empty-state">
-                        <span class="empty-state-icon">📭</span>
-                        <p>هنوز مقاله‌ای اضافه نشده!</p>
-                    </div>
-                `;
+                list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">📭</span><p>هنوز مقاله‌ای اضافه نشده!</p></div>`;
                 return;
             }
             
             list.innerHTML = articles.map((article, index) => `
-                <div class="article-item">
-                    <div class="article-item-info">
+                <div class="list-item">
+                    <div class="list-item-info">
                         <h3>${article.icon} ${article.title}</h3>
                         <p>📅 ${article.date} ${article.summary ? '| ' + article.summary : ''}</p>
                     </div>
-                    <div class="article-item-actions">
-                        <button onclick="moveUp(${index})" class="btn btn-secondary" ${index === 0 ? 'disabled' : ''}>⬆️</button>
-                        <button onclick="moveDown(${index})" class="btn btn-secondary" ${index === articles.length - 1 ? 'disabled' : ''}>⬇️</button>
-                        <button onclick="editArticle(${index})" class="btn btn-warning">✏️</button>
-                        <button onclick="deleteArticle(${index})" class="btn btn-danger">🗑️</button>
+                    <div class="list-item-actions">
+                        <button onclick="moveArticleUp(${index})" class="btn btn-secondary btn-sm" ${index === 0 ? 'disabled' : ''}>⬆️</button>
+                        <button onclick="moveArticleDown(${index})" class="btn btn-secondary btn-sm" ${index === articles.length - 1 ? 'disabled' : ''}>⬇️</button>
+                        <button onclick="editArticle(${index})" class="btn btn-warning btn-sm">✏️</button>
+                        <button onclick="deleteArticle(${index})" class="btn btn-danger btn-sm">🗑️</button>
                     </div>
                 </div>
             `).join('');
         }
         
-        // جابجایی بالا
-        function moveUp(index) {
+        function moveArticleUp(index) {
             if (index === 0) return;
             [articles[index - 1], articles[index]] = [articles[index], articles[index - 1]];
             saveArticles();
             renderArticles();
         }
         
-        // جابجایی پایین
-        function moveDown(index) {
+        function moveArticleDown(index) {
             if (index === articles.length - 1) return;
             [articles[index], articles[index + 1]] = [articles[index + 1], articles[index]];
             saveArticles();
             renderArticles();
         }
         
-        // ویرایش
         function editArticle(index) {
             const article = articles[index];
             document.getElementById('articleTitle').value = article.title;
@@ -688,47 +885,192 @@
             document.getElementById('articleSummary').value = article.summary;
             document.getElementById('articleContent').value = article.content;
             
-            // حذف از لیست
             articles.splice(index, 1);
             saveArticles();
             renderArticles();
+            updateStats();
             
             showToast('✏️ حالا ویرایش کن و دوباره اضافه کن');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         
-        // حذف
         function deleteArticle(index) {
             if (!confirm('این مقاله حذف بشه؟')) return;
             articles.splice(index, 1);
             saveArticles();
             renderArticles();
+            updateStats();
             showToast('🗑️ حذف شد!');
         }
         
-        // تنظیمات
+        // ===== برنامه هفتگی =====
+        function addSchedule() {
+            const day = document.getElementById('scheduleDay').value;
+            const time = document.getElementById('scheduleTime').value.trim();
+            const task = document.getElementById('scheduleTask').value.trim();
+            const note = document.getElementById('scheduleNote').value.trim();
+            const status = document.getElementById('scheduleStatus').value;
+            
+            if (!task) {
+                alert('❌ برنامه رو بنویس!');
+                return;
+            }
+            
+            schedule.push({
+                id: Date.now(),
+                day: day,
+                time: time || '',
+                task: task,
+                note: note || '',
+                status: status
+            });
+            
+            saveSchedule();
+            renderSchedule();
+            clearScheduleForm();
+            updateStats();
+            showToast('✅ برنامه اضافه شد!');
+        }
+        
+        function clearScheduleForm() {
+            document.getElementById('scheduleTime').value = '';
+            document.getElementById('scheduleTask').value = '';
+            document.getElementById('scheduleNote').value = '';
+            document.getElementById('scheduleStatus').value = 'pending';
+        }
+        
+        function saveSchedule() {
+            localStorage.setItem('schedule', JSON.stringify(schedule));
+        }
+        
+        function renderSchedule() {
+            const list = document.getElementById('scheduleList');
+            
+            if (schedule.length === 0) {
+                list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">📭</span><p>هنوز برنامه‌ای اضافه نشده!</p></div>`;
+                return;
+            }
+            
+            const statuses = {
+                'pending': '⏳ در انتظار',
+                'done': '✅ انجام شده',
+                'cancelled': '❌ لغو شده'
+            };
+            
+            list.innerHTML = schedule.map((item, index) => `
+                <div class="list-item">
+                    <div class="list-item-info">
+                        <h3>${item.day} - ${item.time} - ${item.task}</h3>
+                        <p>${item.note ? '📝 ' + item.note + ' | ' : ''}${statuses[item.status]}</p>
+                    </div>
+                    <div class="list-item-actions">
+                        <button onclick="moveScheduleUp(${index})" class="btn btn-secondary btn-sm" ${index === 0 ? 'disabled' : ''}>⬆️</button>
+                        <button onclick="moveScheduleDown(${index})" class="btn btn-secondary btn-sm" ${index === schedule.length - 1 ? 'disabled' : ''}>⬇️</button>
+                        <button onclick="editSchedule(${index})" class="btn btn-warning btn-sm">✏️</button>
+                        <button onclick="deleteSchedule(${index})" class="btn btn-danger btn-sm">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function moveScheduleUp(index) {
+            if (index === 0) return;
+            [schedule[index - 1], schedule[index]] = [schedule[index], schedule[index - 1]];
+            saveSchedule();
+            renderSchedule();
+        }
+        
+        function moveScheduleDown(index) {
+            if (index === schedule.length - 1) return;
+            [schedule[index], schedule[index + 1]] = [schedule[index + 1], schedule[index]];
+            saveSchedule();
+            renderSchedule();
+        }
+        
+        function editSchedule(index) {
+            const item = schedule[index];
+            document.getElementById('scheduleDay').value = item.day;
+            document.getElementById('scheduleTime').value = item.time;
+            document.getElementById('scheduleTask').value = item.task;
+            document.getElementById('scheduleNote').value = item.note;
+            document.getElementById('scheduleStatus').value = item.status;
+            
+            schedule.splice(index, 1);
+            saveSchedule();
+            renderSchedule();
+            updateStats();
+            
+            showToast('✏️ حالا ویرایش کن و دوباره اضافه کن');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function deleteSchedule(index) {
+            if (!confirm('این برنامه حذف بشه؟')) return;
+            schedule.splice(index, 1);
+            saveSchedule();
+            renderSchedule();
+            updateStats();
+            showToast('🗑️ حذف شد!');
+        }
+        
+        // ===== تنظیمات =====
         function loadSettings() {
             document.getElementById('siteTitle').value = settings.siteTitle;
             document.getElementById('siteSubtitle').value = settings.siteSubtitle;
+            document.getElementById('siteLogo').value = settings.siteLogo;
             document.getElementById('authorName').value = settings.authorName;
             document.getElementById('contactEmail').value = settings.contactEmail;
+            document.getElementById('primaryColor').value = settings.primaryColor;
+            document.getElementById('secondaryColor').value = settings.secondaryColor;
         }
         
         function saveSettings() {
             settings.siteTitle = document.getElementById('siteTitle').value;
             settings.siteSubtitle = document.getElementById('siteSubtitle').value;
+            settings.siteLogo = document.getElementById('siteLogo').value;
             settings.authorName = document.getElementById('authorName').value;
             settings.contactEmail = document.getElementById('contactEmail').value;
+            settings.primaryColor = document.getElementById('primaryColor').value;
+            settings.secondaryColor = document.getElementById('secondaryColor').value;
             
             localStorage.setItem('settings', JSON.stringify(settings));
             showToast('💾 تنظیمات ذخیره شد!');
         }
         
-        // تولید خروجی
-        function generateOutput() {
-            let output = '';
+        // ===== درباره =====
+        function loadAbout() {
+            document.getElementById('aboutName').value = about.name;
+            document.getElementById('aboutTitle').value = about.title;
+            document.getElementById('aboutBio').value = about.bio;
+            document.getElementById('aboutPhilosophy').value = about.philosophy;
+        }
+        
+        function saveAbout() {
+            about.name = document.getElementById('aboutName').value;
+            about.title = document.getElementById('aboutTitle').value;
+            about.bio = document.getElementById('aboutBio').value;
+            about.philosophy = document.getElementById('aboutPhilosophy').value;
             
-            // کارت‌ها
+            localStorage.setItem('about', JSON.stringify(about));
+            showToast('💾 ذخیره شد!');
+        }
+        
+        // ===== آمار =====
+        function updateStats() {
+            document.getElementById('statArticles').textContent = toPersian(articles.length);
+            document.getElementById('statSchedule').textContent = toPersian(schedule.length);
+            document.getElementById('statDone').textContent = toPersian(schedule.filter(s => s.status === 'done').length);
+        }
+        
+        function toPersian(num) {
+            const digits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            return num.toString().replace(/\d/g, d => digits[d]);
+        }
+        
+        // ===== خروجی =====
+        function generateAll() {
+            let output = '=== کد کارت‌های مقاله (برای index.html) ===\n\n';
+            
             articles.forEach(article => {
                 output += `
         <article class="article-card">
@@ -743,25 +1085,45 @@
         </article>`;
             });
             
+            output += '\n\n=== کد جدول برنامه (برای schedule.html) ===\n\n';
+            
+            const statuses = {
+                'pending': '<span class="status-pending">⏳ در انتظار</span>',
+                'done': '<span class="status-done">✅ انجام شده</span>',
+                'cancelled': '<span class="status-cancelled">❌ لغو شده</span>'
+            };
+            
+            schedule.forEach(item => {
+                output += `
+                    <tr>
+                        <td>${item.day}</td>
+                        <td>${item.time}</td>
+                        <td>${item.task}</td>
+                        <td>${item.note}</td>
+                        <td>${statuses[item.status]}</td>
+                    </tr>`;
+            });
+            
+            output += '\n\n=== تنظیمات ===\n\n';
+            output += JSON.stringify(settings, null, 2);
+            
             document.getElementById('outputBox').textContent = output;
         }
         
-        // کپی
-        function copyOutput() {
+        function copyAll() {
             const output = document.getElementById('outputBox').textContent;
             navigator.clipboard.writeText(output).then(() => {
                 showToast('📋 کپی شد!');
             });
         }
         
-        // دانلود
-        function downloadOutput() {
+        function downloadAll() {
             const output = document.getElementById('outputBox').textContent;
             const blob = new Blob([output], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'articles-cards.txt';
+            a.download = 'site-output.txt';
             a.click();
             URL.revokeObjectURL(url);
             showToast('💾 دانلود شد!');
@@ -773,7 +1135,6 @@
             toast.className = 'toast';
             toast.textContent = message;
             document.body.appendChild(toast);
-            
             setTimeout(() => toast.remove(), 2000);
         }
         
