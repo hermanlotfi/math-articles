@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ورود ادمین - مقاله‌های ریاضی</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 2rem;
+        }
+        
+        .login-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .login-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .login-box h1 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .login-box p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .login-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            border: 2px solid #e0e7ff;
+            border-radius: 12px;
+            outline: none;
+            margin-bottom: 1rem;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        
+        .login-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-family: inherit;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+        }
+        
+        .login-error {
+            background: #ffe0e0;
+            color: #e74c3c;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .login-error.show {
+            display: block;
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .back-link {
+            display: block;
+            margin-top: 2rem;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-box">
+            <div class="login-icon">🔐</div>
+            <h1>ورود ادمین</h1>
+            <p>برای دسترسی به پنل مدیریت، رمز عبور را وارد کنید</p>
+            
+            <input 
+                type="password" 
+                id="password" 
+                class="login-input" 
+                placeholder="رمز عبور..."
+                onkeypress="if(event.key === 'Enter') checkPassword()"
+            >
+            
+            <button onclick="checkPassword()" class="login-btn">
+                🔓 ورود
+            </button>
+            
+            <div class="login-error" id="error">
+                ❌ رمز عبور اشتباه است!
+            </div>
+            
+            <a href="index.html" class="back-link">← بازگشت به خانه</a>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ رمز رو اینجا عوض کن!
+        const ADMIN_PASSWORD = "123456789";
+        
+        function checkPassword() {
+            const input = document.getElementById('password');
+            const error = document.getElementById('error');
+            
+            if (input.value === ADMIN_PASSWORD) {
+                // ذخیره در sessionStorage
+                sessionStorage.setItem('isAdmin', 'true');
+                // رفتن به پنل
+                window.location.href = 'admin-panel.html';
+            } else {
+                error.classList.add('show');
+                input.value = '';
+                input.focus();
+                
+                setTimeout(() => {
+                    error.classList.remove('show');
+                }, 3000);
+            }
+        }
+        
+        // اگه قبلاً وارد شده، مستقیم بره
+        if (sessionStorage.getItem('isAdmin') === 'true') {
+            window.location.href = 'admin-panel.html';
+        }
+    </script>
+
+</body>
+</html>
