@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریت - مقاله‌های ریاضی</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .admin-header h1 {
+            font-size: 1.4rem;
+        }
+        
+        .logout-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #c0392b;
+        }
+        
+        .admin-main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .admin-welcome {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .admin-welcome h2 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-welcome p {
+            color: #666;
+        }
+        
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .admin-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            border-top: 4px solid #667eea;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .admin-card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .admin-card h3 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .admin-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        /* Editor */
+        .editor-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .editor-section.show {
+            display: block;
+        }
+        
+        .editor-section h2 {
+            color: #1e3c72;
+            margin-bottom: 1.5rem;
+        }
+        
+        .editor-input, .editor-textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .editor-input:focus, .editor-textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+        
+        .editor-textarea {
+            min-height: 200px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+            direction: ltr;
+            text-align: left;
+        }
+        
+        .editor-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .editor-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .btn-save {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .btn-save:hover {
+            background: #27ae60;
+        }
+        
+        .btn-cancel {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .btn-cancel:hover {
+            background: #7f8c8d;
+        }
+        
+        .btn-preview {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-preview:hover {
+            background: #2980b9;
+        }
+        
+        /* Preview */
+        .preview-box {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            border: 2px dashed #ddd;
+            min-height: 100px;
+        }
+        
+        .preview-box h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- هدر ادمین -->
+    <div class="admin-header">
+        <h1>🔐 پنل مدیریت</h1>
+        <button onclick="logout()" class="logout-btn">🚪 خروج</button>
+    </div>
+
+    <!-- محتوا -->
+    <main class="admin-main">
+        
+        <div class="admin-welcome">
+            <h2>👋 خوش آمدید!</h2>
+            <p>به پنل مدیریت سایت مقاله‌های ریاضی خوش آمدید</p>
+        </div>
+
+        <!-- کارت‌ها -->
+        <div class="admin-grid">
+            <div class="admin-card" onclick="openEditor('article')">
+                <span class="admin-card-icon">📝</span>
+                <h3>مقاله جدید</h3>
+                <p>افزودن مقاله جدید</p>
+            </div>
+            
+            <div class="admin-card" onclick="openEditor('schedule')">
+                <span class="admin-card-icon">📅</span>
+                <h3>برنامه هفتگی</h3>
+                <p>ویرایش برنامه هفتگی</p>
+            </div>
+            
+            <div class="admin-card" onclick="openEditor('about')">
+                <span class="admin-card-icon">👨‍🏫</span>
+                <h3>صفحه درباره</h3>
+                <p>ویرایش اطلاعات شخصی</p>
+            </div>
+            
+            <div class="admin-card" onclick="openEditor('settings')">
+                <span class="admin-card-icon">⚙️</span>
+                <h3>تنظیمات</h3>
+                <p>تنظیمات سایت</p>
+            </div>
+        </div>
+
+        <!-- ادیتور -->
+        <div class="editor-section" id="editor">
+            <h2 id="editorTitle">ویرایش</h2>
+            
+            <input 
+                type="text" 
+                id="editorInput" 
+                class="editor-input" 
+                placeholder="عنوان..."
+            >
+            
+            <textarea 
+                id="editorTextarea" 
+                class="editor-textarea" 
+                placeholder="محتوا (HTML)..."
+            ></textarea>
+            
+            <div class="editor-buttons">
+                <button onclick="saveContent()" class="editor-btn btn-save">💾 ذخیره</button>
+                <button onclick="previewContent()" class="editor-btn btn-preview">👁️ پیش‌نمایش</button>
+                <button onclick="closeEditor()" class="editor-btn btn-cancel">❌ بستن</button>
+            </div>
+            
+            <div class="preview-box" id="previewBox" style="display: none;">
+                <h3>پیش‌نمایش:</h3>
+                <div id="previewContent"></div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // چک کردن ورود
+        if (sessionStorage.getItem('isAdmin') !== 'true') {
+            window.location.href = 'admin.html';
+        }
+        
+        // باز کردن ادیتور
+        function openEditor(type) {
+            const editor = document.getElementById('editor');
+            const title = document.getElementById('editorTitle');
+            const input = document.getElementById('editorInput');
+            const textarea = document.getElementById('editorTextarea');
+            
+            editor.classList.add('show');
+            
+            const titles = {
+                'article': '📝 مقاله جدید',
+                'schedule': '📅 برنامه هفتگی',
+                'about': '👨‍🏫 صفحه درباره',
+                'settings': '⚙️ تنظیمات'
+            };
+            
+            title.textContent = titles[type] || 'ویرایش';
+            
+            // بارگذاری محتوای قبلی
+            const saved = localStorage.getItem('edit_' + type);
+            if (saved) {
+                const data = JSON.parse(saved);
+                input.value = data.title || '';
+                textarea.value = data.content || '';
+            } else {
+                input.value = '';
+                textarea.value = '';
+            }
+            
+            // ذخیره نوع
+            editor.dataset.type = type;
+            
+            // اسکرول
+            editor.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // ذخیره
+        function saveContent() {
+            const editor = document.getElementById('editor');
+            const type = editor.dataset.type;
+            const title = document.getElementById('editorInput').value;
+            const content = document.getElementById('editorTextarea').value;
+            
+            if (!title && !content) {
+                alert('❌ لطفاً چیزی بنویسید!');
+                return;
+            }
+            
+            localStorage.setItem('edit_' + type, JSON.stringify({
+                title: title,
+                content: content,
+                date: new Date().toISOString()
+            }));
+            
+            alert('✅ ذخیره شد!');
+        }
+        
+        // پیش‌نمایش
+        function previewContent() {
+            const content = document.getElementById('editorTextarea').value;
+            const previewBox = document.getElementById('previewBox');
+            const previewContent = document.getElementById('previewContent');
+            
+            previewBox.style.display = 'block';
+            previewContent.innerHTML = content;
+            previewBox.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // بستن
+        function closeEditor() {
+            document.getElementById('editor').classList.remove('show');
+            document.getElementById('previewBox').style.display = 'none';
+        }
+        
+        // خروج
+        function logout() {
+            if (confirm('از پنل مدیریت خارج می‌شوید؟')) {
+                sessionStorage.removeItem('isAdmin');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+
+</body>
+</html>
